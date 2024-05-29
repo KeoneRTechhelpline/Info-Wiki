@@ -1,0 +1,23 @@
+services:
+  mediawiki:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./mediawiki:/var/www/html/mediawiki
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.5
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: mediawiki
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
